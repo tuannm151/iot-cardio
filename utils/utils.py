@@ -75,20 +75,28 @@ def train_test_split(X, y, test_size=0.2, shuffle=True, random_state=1):
         shuffle: có xáo trộn dữ liệu hay không
         random_state: giá trị khởi tạo cho hàm xáo trộn
     """
-    # shuffle data
+    # convert dữ liệu về dạng numpy array
     _X = X
     _y = y
+    if not isinstance(X, np.ndarray):
+        _X = np.array(X)
+    if not isinstance(y, np.ndarray):
+        _y = np.array(y)
+    
+    # shuffle data
     if shuffle:
-        _X = X.iloc[np.random.RandomState(random_state).permutation(len(X))]
-        _y = y.iloc[np.random.RandomState(random_state).permutation(len(y))]
+        _X = _X[np.random.RandomState(random_state).permutation(len(_X))]
+        _y = _y[np.random.RandomState(random_state).permutation(len(_y))]
     # split data
     n = len(_X)
     n_train = int(n * (1 - test_size))
-    X_train = _X.iloc[:n_train]
-    y_train = _y.iloc[:n_train]
-    X_test = _X.iloc[n_train:]
-    y_test = _y.iloc[n_train:]
+    X_train = _X[:n_train]
+    y_train = _y[:n_train]
+    X_test = _X[n_train:]
+    y_test = _y[n_train:]
 
     return X_train, X_test, y_train, y_test
+
+
         
     
